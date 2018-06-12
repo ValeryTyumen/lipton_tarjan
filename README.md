@@ -30,5 +30,4 @@ Check docstrings and see [presentation](https://github.com/ValeryTyumen/lipton_t
 ## References
 
 [1] - R. J. Lipton and R. E. Tarjan, "A separator theorem for planar graphs", tech. rep., Stanford, CA, USA, 1977.
-
 [2] - R. J. Lipton; D. J. Rose; R. E. Tarjan (1979), "Generalized nested dissection", _SIAM Journal on Numerical Analysis_, 16 (2): 346–358.
