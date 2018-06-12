@@ -7,14 +7,70 @@ from .planar_graph_edges import PlanarGraphEdges
 
 
 class PlanarGraphGenerator:
+    """
+    A static class for planar graph generation.
+    """
 
     @staticmethod
     def generate_random_tree(size, random_vertex_costs=False):
+        """
+        O(size) algorithm for random tree generation.
+
+        Parameters
+        ----------
+        size : int
+            Size of the generated tree, >= 2.
+        random_vertex_costs : boolean, optional
+            If set to `True`, vertex costs are generated uniformly from [0, 1] and then normalized.
+            If set to `False`, vertex costs are set to 1/size.
+            Default is `False`.
+
+        Returns
+        -------
+        PlanarGraph
+            Result tree embedded into a plane.
+
+        Notes
+        -----
+        To generate a random tree, the algorithm starts with two vertices connected by edge. Then on
+        each step a random vertex is chosen and a new leaf is attached to it next to the edge
+        indicated by current `incident_edge_example_indices` array value. This is repeated until a
+        required tree size is reached.
+        """
 
         return _generate_random_tree(size, random_vertex_costs)
 
     @staticmethod
     def generate_random_graph(size, density, random_vertex_costs=False):
+        """
+        O(size) algorithm for random normal planar graph generation.
+
+        Parameters
+        ----------
+        size : int
+            Size of the generated graph, >= 2.
+        density : float
+            A value from [0, 1]. The result number of edges in the generated graph will be
+            approximately density*(3*size - 6).
+        random_vertex_costs : boolean, optional
+            If set to `True`, vertex costs are generated uniformly from [0, 1] and then normalized.
+            If set to `False`, vertex costs are set to 1/size.
+            Default is `False`.
+
+        Returns
+        -------
+        PlanarGraph
+            Result planar graph.
+
+        Notes
+        -----
+        To generate a random planar graph, a random tree of the same size is generated first. It is
+        triangulated then. Then a random (1 - density) portion of edges is deleted from graph.
+        
+        Since the triangulation algorithm can produce multiple edges, some edges are deleted fulfill
+        normality of the graph. Expiments show that there are not so many of such edges, so density
+        is assumed to be preserved.
+        """
 
         return _generate_random_graph(size, density, random_vertex_costs)
 

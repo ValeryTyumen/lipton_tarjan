@@ -7,16 +7,35 @@ from .planar_graph_edges import PlanarGraphEdges
 
 
 class Triangulator:
+    """
+    A static class for planar graph triangulation.
+    """
 
     @staticmethod
     def triangulate(graph):
         """
-            Assume there are not less than 3 vertices in `graph`.
-            Assume there's no two-edge faces in `graph`.
+        Linear algorithm for planar graph triangulation.
 
-            Algorithm from Schraudolph-Kamenetsky.
+        Parameters
+        ----------
+        graph : PlanarGraph
+            A graph to triangulated. It is assumed that graph.size >= 3 and there are no
+            two-edge faces in it.
 
-            Method may violate normality of the graph.
+        Returns
+        -------
+        new_edge_indices_mapping : array_like, int32
+            Mapping from `graph` edge indices to corresponding triangulated edge indices.
+        triangulated_graph : PlanarGraph
+            Triangulated graph. The input graph is unaffected.
+
+        Notes
+        -----
+        The algorithm is borrowed from N. N. Schraudolph and D. Kamenetsky
+        "Efficient exact inference in Planar Ising Models", Advances in Neural Information
+        Processing Systems 21, pp. 1417-1424, Curran Associates, Inc., 2009
+
+        The algorithm can violate normality of the graph.
         """
 
         return triangulate(graph)
@@ -90,6 +109,30 @@ def _insert_edge(graph, triangle_vertex1, triangle_vertex2, triangle_vertex3, tr
 
 @jit(Tuple((int32[:], planar_graph_nb_type))(planar_graph_nb_type), nopython=True)
 def triangulate(graph):
+    """
+    Linear algorithm for planar graph triangulation.
+
+    Parameters
+    ----------
+    graph : PlanarGraph
+        A graph to triangulated. It is assumed that graph.size >= 3 and there are no
+        two-edge faces in it.
+
+    Returns
+    -------
+    new_edge_indices_mapping : array_like, int32
+        Mapping from `graph` edge indices to corresponding triangulated edge indices.
+    triangulated_graph : PlanarGraph
+        Triangulated graph. The input graph is unaffected.
+
+    Notes
+    -----
+    The algorithm is borrowed from N. N. Schraudolph and D. Kamenetsky
+    "Efficient exact inference in Planar Ising Models", Advances in Neural Information
+    Processing Systems 21, pp. 1417-1424, Curran Associates, Inc., 2009
+
+    The algorithm can violate normality of the graph.
+    """
 
     graph = planar_graph_constructor.clone_graph(graph)
 

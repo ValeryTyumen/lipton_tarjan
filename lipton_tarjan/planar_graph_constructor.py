@@ -7,26 +7,103 @@ from .planar_graph_edges import PlanarGraphEdges, planar_graph_edges_nb_type
 
 
 class PlanarGraphConstructor:
+    """
+    A static class with different planar graph construction methods.
+    """
 
     @staticmethod
     def construct_subgraph(graph, subgraph_vertices_mask, subgraph_edges_mask):
+        """
+        Linear algorithm for subgraph construction.
+
+        Parameters
+        ----------
+        graph : PlanarGraph
+        subgraph_vertices_mask : array_like, boolean
+            Boolean mask of vertices to leave in subgraph.
+        subgraph_edges_mask : array_like, boolean
+            Boolean mask of edges to leave in subgraph.
+
+        Returns
+        -------
+        new_vertices_mapping : array_like, int32
+            Mapping from `graph` vertices to corresponding `subgraph` vertices. If `graph` vertex is
+            deleted, `-1` is substituted.
+        new_edge_indices_mapping : array_like, int32
+            Mapping from `graph` edge indices to corresponding `subgraph` edge indices. If `graph`
+            edge index is deleted, `-1` is substituted.
+        subgraph : PlanarGraph
+            Result subgraph
+        """
 
         return construct_subgraph(graph, subgraph_vertices_mask, subgraph_edges_mask)
 
     @staticmethod
     def clone_graph(graph):
+        """
+        Graph cloning.
+
+        Parameters
+        ----------
+        graph : PlanarGraph
+
+        Returns
+        -------
+        PlanarGraph
+            The same graph up to different incident edge examples.
+        """
 
         return clone_graph(graph)
 
     @staticmethod
     def construct_from_ordered_adjacencies(ordered_adjacencies):
+        """
+        Convenient method for constructing planar graph.
 
-        return construct_from_ordered_adjacencies(ordered_adjacencies)
+        Parameters
+        ----------
+        ordered_adjacencies : list of list of int
+            The list, where for each vertex the list of its adjacent vertices is provided in the
+            order of ccw traversal (or cw traversal, it's just a convention). For instance,
+            `[[1, 2, 3, 4], [0], [0], [0], [0]]` would encode a "star" graph with 4 edges.
+
+        Returns
+        -------
+        PlanarGraph
+
+        Notes
+        -----
+        Only normal graphs are supported, i.e. no multiple edges or loops.
+        """
+
+        return _construct_from_ordered_adjacencies(ordered_adjacencies)
 
 
 @jit(Tuple((int32[:], int32[:], planar_graph_nb_type))(planar_graph_nb_type, boolean[:],
         boolean[:]), nopython=True)
 def construct_subgraph(graph, subgraph_vertices_mask, subgraph_edges_mask):
+    """
+    Linear algorithm for subgraph construction.
+
+    Parameters
+    ----------
+    graph : PlanarGraph
+    subgraph_vertices_mask : array_like, boolean
+        Boolean mask of vertices to leave in subgraph.
+    subgraph_edges_mask : array_like, boolean
+        Boolean mask of edges to leave in subgraph.
+
+    Returns
+    -------
+    new_vertices_mapping : array_like, int32
+        Mapping from `graph` vertices to corresponding `subgraph` vertices. If `graph` vertex is
+        deleted, `-1` is substituted.
+    new_edge_indices_mapping : array_like, int32
+        Mapping from `graph` edge indices to corresponding `subgraph` edge indices. If `graph`
+        edge index is deleted, `-1` is substituted.
+    subgraph : PlanarGraph
+        Result subgraph
+    """
 
     vertex_costs = graph.vertex_costs[subgraph_vertices_mask]
 
@@ -94,8 +171,19 @@ def construct_subgraph(graph, subgraph_vertices_mask, subgraph_edges_mask):
 
 @jit(planar_graph_nb_type(planar_graph_nb_type), nopython=True)
 def clone_graph(graph):
+    """
+    Graph cloning.
 
-    # Creates the same graph up to different incident edge examples
+    Parameters
+    ----------
+    graph : PlanarGraph
+
+    Returns
+    -------
+    PlanarGraph
+        The same graph up to different incident edge examples.
+    """
+
     _, _, graph = construct_subgraph(graph, utils.repeat_bool(True, graph.size),
             utils.repeat_bool(True, graph.edges_count))
 
@@ -117,10 +205,7 @@ def _create_edges_and_map_adjacencies(adjacent_vertices):
 
     return edges, edge_indices_by_adjacencies
 
-def construct_from_ordered_adjacencies(ordered_adjacencies):
-    """
-        only normal graphs are supported
-    """
+def _construct_from_ordered_adjacencies(ordered_adjacencies):
 
     vertices_count = len(ordered_adjacencies)
 

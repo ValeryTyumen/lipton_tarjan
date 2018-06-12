@@ -9,11 +9,24 @@ from .separation_class import SeparationClass
 
 class PlanarSeparator:
     """
-        This class implements Lipton-Tarjan algorithm
+    Static class implementing Lipton-Tarjan algorithm.
     """
 
     @staticmethod
     def mark_separation(graph):
+        """
+        Separate the graph into three parts - FIRST_PART, SEPARATOR and SECOND_PART.
+
+        Parameters
+        ----------
+        graph : PlanarGraph
+            A normal planar graph instance (i.e. without multiple edges and loops).
+
+        Returns
+        -------
+        array_like, SeparationClass
+            Result separation.
+        """
 
         return np.array([SeparationClass(value) for value in mark_separation(graph)], dtype=object)
 
@@ -355,6 +368,19 @@ def _mark_separation_for_one_connected_component(graph, connected_component_indi
 
 @jit(int32[:](planar_graph_nb_type), nopython=True)
 def mark_separation(graph):
+    """
+    Separate the graph into three parts - FIRST_PART(0), SEPARATOR(2) and SECOND_PART(1).
+
+    Parameters
+    ----------
+    graph : PlanarGraph
+        A normal planar graph instance (i.e. without multiple edges and loops).
+
+    Returns
+    -------
+    array_like, int32
+        Result separation.
+    """
 
     # Step 2
 

@@ -9,8 +9,30 @@ from .planar_graph_edges import PlanarGraphEdges, planar_graph_edges_nb_type
         ('_edges', planar_graph_edges_nb_type),
         ('_size', int32)])
 class PlanarGraph:
+    """
+    Planar graph representation, encoded by a list of edges (`PlanarGraphEdges` instance), an array
+    of incident edge examples for each vertex and an array of vertex costs.
+
+    Notes
+    -----
+    The implemented data structure is described in R. J. Lipton, R. E. Tarjan,
+    "A separator theorem for planar graphs", tech. rep., Stanford, CA, USA, 1977.
+    """
 
     def __init__(self, vertex_costs, incident_edge_example_indices, edges):
+        """
+        Graph initialization.
+
+        Parameters
+        ----------
+        vertex_costs : array_like, float32
+            An array of costs assinged to each vertex, summing to no more than one. Most likely
+            all costs are 1/size.
+        incident_edge_example_indices : array_like, int32
+            An array where for each vertex an index of one edge incident to this vertex is stored.
+        edges : PlanarGraphEdges
+            Edges list.
+        """
 
         self._vertex_costs = vertex_costs
         self._incident_edge_example_indices = incident_edge_example_indices

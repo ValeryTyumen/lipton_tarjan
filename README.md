@@ -25,7 +25,7 @@ See [tests](https://github.com/ValeryTyumen/lipton_tarjan/blob/master/tests/test
 
 ## Documentation
 
-See [presentation]() notebook to know more about the available functionality of the framework.
+Check docstrings and see [presentation](https://github.com/ValeryTyumen/lipton_tarjan/blob/master/presentation.ipynb) notebook to know more about available functionality in the framework.
 
 ## References
 
