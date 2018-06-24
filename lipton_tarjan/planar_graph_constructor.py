@@ -214,7 +214,7 @@ def _construct_from_ordered_adjacencies(ordered_adjacencies):
     edges, edge_indices_by_adjacencies = \
             _create_edges_and_map_adjacencies(ordered_adjacencies)
 
-    incident_edge_example_indices = np.zeros(vertices_count, dtype=np.int32)
+    incident_edge_example_indices = utils.repeat_int(-1, vertices_count)
 
     for vertex, vertex_ordered_adjacencies in enumerate(ordered_adjacencies):
 
