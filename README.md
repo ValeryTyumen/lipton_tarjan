@@ -13,7 +13,7 @@ Lipton and Tarjan also propose an algorithm to compute *A, B, C* partitioning in
 
 The need in a separator of *O(n<sup>1/2</sup>)* size dividing graph into almost equal parts appears in various algorithms exploiting *divide-and-conquer* strategy.  For instance, it is used in *Generalized Nested Dissection* [2], allowing to solve systems of linear equations whose sparsity structure corresponds to a planar graph. Check the [wikipedia page](https://en.wikipedia.org/wiki/Planar_separator_theorem) for other applications and further reading.
 
-Efficient graph separation can be leveraged for tractable Markov Random Field inference and sampling algorithms. In fact, the main reason for this implementation to appear is its usage in Planar Zero-Field Ising Model inference and sampling project.
+Efficient graph separation can be leveraged for tractable Markov Random Field inference and sampling algorithms. In fact, the main reason for this implementation to appear is its usage in [Planar Zero-Field Ising Model inference and sampling project](https://github.com/ValeryTyumen/planar_ising).
 
 ## About the code
 
