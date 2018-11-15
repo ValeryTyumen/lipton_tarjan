@@ -1,8 +1,8 @@
-import os
 import numpy as np
 from numba import jitclass
 from numba.types import void, int32, float32
 from .planar_graph_edges import PlanarGraphEdges, planar_graph_edges_nb_type
+from . import numba_utils
 
 
 @jitclass([('_vertex_costs', float32[:]),
@@ -88,10 +88,4 @@ class PlanarGraph:
             yield self._edges.get_opposite_vertex(edge_index, vertex)
 
 
-numba_disable_jit_variable = 'NUMBA_DISABLE_JIT'
-
-if numba_disable_jit_variable not in os.environ or os.environ[numba_disable_jit_variable] != '1':
-    planar_graph_nb_type = PlanarGraph.class_type.instance_type
-else:
-    # any value
-    planar_graph_nb_type = int32
+planar_graph_nb_type = numba_utils.get_numba_type(PlanarGraph)

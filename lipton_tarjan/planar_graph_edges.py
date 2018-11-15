@@ -1,7 +1,7 @@
-import os
 import numpy as np
 from numba import jitclass
 from numba.types import int32
+from . import numba_utils
 import datetime
 
 
@@ -147,10 +147,4 @@ class PlanarGraphEdges:
         return self._vertex2_previous_edge_index[edge_index]
 
 
-numba_disable_jit_variable = 'NUMBA_DISABLE_JIT'
-
-if numba_disable_jit_variable not in os.environ or os.environ[numba_disable_jit_variable] != '1':
-    planar_graph_edges_nb_type = PlanarGraphEdges.class_type.instance_type
-else:
-    # any value
-    planar_graph_edges_nb_type = int32
+planar_graph_edges_nb_type = numba_utils.get_numba_type(PlanarGraphEdges)
